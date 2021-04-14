@@ -7,15 +7,24 @@
 
 import SwiftUI
 
+class ContentViewDelegate: ObservableObject {
+    @Published var name : String = ""
+}
+
 struct ContentView: View {
+    
+    @ObservedObject var delegate : ContentViewDelegate
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-            .background(Color.yellow)
+        VStack{
+            
+            TextField("Enter name", text: self.$delegate.name)
+        }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(delegate: ContentViewDelegate())
     }
 }

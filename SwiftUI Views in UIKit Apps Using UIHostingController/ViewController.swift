@@ -7,14 +7,19 @@
 
 import UIKit
 import SwiftUI
+import Combine
 
 class ViewController: UIViewController {
+    
+    private var cancellabe : AnyCancellable!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        let controller = UIHostingController(rootView: ContentView())
+        let delegate = ContentViewDelegate()
+        
+        let controller = UIHostingController(rootView: ContentView(delegate: delegate))
         controller.view.translatesAutoresizingMaskIntoConstraints = false
         self.addChild(controller)
         self.view.addSubview(controller.view)
@@ -26,6 +31,11 @@ class ViewController: UIViewController {
             controller.view.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             controller.view.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
         ])
+        
+        self.cancellabe = delegate.$name.sink {
+            name in print(name)
+            
+        }
         
     }
 
